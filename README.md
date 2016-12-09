@@ -1,9 +1,9 @@
 
 DJI Ronin - ROS Control Unit
 ------------------------
-<center>
+<p align="center">
 <img src="http://www.wcxsports.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/s/p/spec_ronin-new.jpg" height="400" width=auto>
-</center>
+</p>
 
 ### OVERVIEW ###
 This is probably the worst way to control the DJI Ronin gimbal, but hey! it works great and **nowadays that's the only way to control it**.
@@ -28,7 +28,7 @@ link: <br>https://play.google.com/store/apps/details?id=com.dji.gimbal
 
 ### Circuit Diagram ###
 Thanks to Learning about Electronics <br><br>
-<center><img src="http://www.learningaboutelectronics.com/images/MCP4131-digital-potentiometer-circuit.png" height="400"></center>
+<p align="center"><img src="http://www.learningaboutelectronics.com/images/MCP4131-digital-potentiometer-circuit.png" height="300"></p>
 <br>
 Instead of LED at the diagram you should connect one of the axis from the DJI remote pan/tilt/roll potentiometer.<br>
 After creating the circuit you should calibrate the poteniometer to the DJI remote using USB cable and windows application, this will give you the settings to speed var at the DJIRonin_Control.py
