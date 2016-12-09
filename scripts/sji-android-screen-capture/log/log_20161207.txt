@@ -1,0 +1,76 @@
+20:22:30.660 ===================================pid:22655=======================================
+20:22:30.660 use configuration: {
+20:22:30.660   "adbHosts": [
+20:22:30.660     ""
+20:22:30.660   ],
+20:22:30.660   "adminWeb_port": 3000,
+20:22:30.660   "adminWeb_ip": "localhost",
+20:22:30.660   "adminWeb_protocol": "http",
+20:22:30.660   "adminWeb_cert": "./ssl/adminWeb.pfx",
+20:22:30.660   "adminKey": "",
+20:22:30.660   "adminUrlSuffix": "",
+20:22:30.660   "streamWeb_port": 33333,
+20:22:30.660   "streamWeb_ip": "localhost",
+20:22:30.660   "streamWeb_protocol": "http",
+20:22:30.660   "streamWeb_cert": "./ssl/streamWeb.pfx",
+20:22:30.660   "outputDir": "../out",
+20:22:30.660   "maxRecordTime": 7200,
+20:22:30.660   "fastResize": true,
+20:22:30.660   "fastCapture": true,
+20:22:30.660   "should_callAscLibSecurely": true,
+20:22:30.660   "support_adbBridge": true,
+20:22:30.660   "enable_getFileFromStreamWeb": false,
+20:22:30.660   "log_filePath": "../log/log.txt",
+20:22:30.660   "log_keepOldFileDays": 2,
+20:22:30.660   "logAllProcCmd": false,
+20:22:30.660   "logAllHttpReqRes": false,
+20:22:30.660   "logHttpReqDetail": false,
+20:22:30.660   "logFfmpegDebugInfo": false,
+20:22:30.660   "logFpsStatistic": false,
+20:22:30.660   "logAdbBridgeDetail": false,
+20:22:30.660   "logRdcWebSocketDetail": false,
+20:22:30.660   "fpsStatisticInterval": 10,
+20:22:30.660   "videoFileFrameRate": 15,
+20:22:30.660   "resentImageForSafariAfter": 0.25,
+20:22:30.660   "resentUnchangedImageInterval": 10,
+20:22:30.660   "showDisconnectedDevices": false,
+20:22:30.660   "viewSize": "400xAuto",
+20:22:30.660   "viewOrient": "portrait",
+20:22:30.660   "adb": "adb",
+20:22:30.660   "ffmpeg": "ffmpeg",
+20:22:30.660   "binDir": "./android",
+20:22:30.660   "androidWorkDir": "/data/local/tmp/sji-asc",
+20:22:30.660   "androidLogPath": "/data/local/tmp/sji-asc.log",
+20:22:30.660   "adbRetryDeviceTrackerInterval": 5,
+20:22:30.660   "adbAutoStartServerInterval": 5,
+20:22:30.660   "adbKeepDeviceAliveInterval": 240,
+20:22:30.660   "adbCheckBasicInfoTimeout": 300,
+20:22:30.660   "adbPushFileToDeviceTimeout": 600,
+20:22:30.660   "adbFinishPrepareFileTimeout": 120,
+20:22:30.660   "adbInstallScreenControllerTimeout": 300,
+20:22:30.660   "adbDeleteScreenControllerApkTimeout": 20,
+20:22:30.660   "adbStartScreenControllerTimeout": 30,
+20:22:30.660   "adbCaptureExitDelayTime": 2,
+20:22:30.660   "adbAdmCmdTimeout": 30,
+20:22:30.660   "adbAdmCmdMaxOutputLength": 65536,
+20:22:30.660   "maxImagesInImageViewer": 1024,
+20:22:30.660   "maxTextInputLength": 63356,
+20:22:30.660   "__end": 0
+20:22:30.660 }
+20:22:30.701 [CheckFfmpeg] SPAWN "ffmpeg" ["-version"] timeout:10000. OK: pid_22675
+20:22:30.754 [CheckFfmpeg] [pid_22675]> ffmpeg version 3.2 Copyright (c) 2000-2016 the FFmpeg developers
+20:22:30.754 [CheckFfmpeg] [pid_22675]> built with gcc 4.8 (Ubuntu 4.8.4-2ubuntu1~14.04.3)
+20:22:30.754 [CheckFfmpeg] [pid_22675]> configuration: --extra-libs=-ldl --prefix=/opt/ffmpeg --mandir=/usr/share/man --enable-avresample --disable-debug --enable-nonfree --enable-gpl --enable-version3 --enable-libopencore-amrnb --enable-libopencore-amrwb --disable-decoder=amrnb --disable-decoder=amrwb --enable-libpulse --enable-libfreetype --enable-gnutls --enable-libx264 --enable-libx265 --enable-libfdk-aac --enable-libvorbis --enable-libmp3lame --enable-libopus --enable-libvpx --enable-libspeex --enable-libass --enable-avisynth --enable-libsoxr --enable-libxvid --enable-libvidstab --enable-libwavpack --enable-nvenc
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libavutil      55. 34.100 / 55. 34.100
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libavcodec     57. 64.100 / 57. 64.100
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libavformat    57. 56.100 / 57. 56.100
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libavdevice    57.  1.100 / 57.  1.100
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libavfilter     6. 65.100 /  6. 65.100
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libavresample   3.  1.  0 /  3.  1.  0
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libswscale      4.  2.100 /  4.  2.100
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libswresample   2.  3.100 /  2.  3.100
+20:22:30.754 [CheckFfmpeg] [pid_22675]> libpostproc    54.  1.100 / 54.  1.100
+20:22:30.761 [CheckAdb] SPAWN "adb" ["version"] timeout:30000. OK: pid_22681
+20:22:30.773 [CheckFfmpeg] [pid_22675] CLEANUP. Reason: CLOSED. 0
+20:22:30.776 [CheckAdb] [pid_22681]> Android Debug Bridge version 1.0.31
+20:22:30.779 [CheckAdb] [pid_22681] CLEANUP. Reason: CLOSED. 0

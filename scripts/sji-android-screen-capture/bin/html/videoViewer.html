@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>VIDEO: #devInfo</title>
+  <link rel="stylesheet" type="text/css" href="common.css">
+  <style>
+    .toolbar a[href$="fileindex=@fileindex"] {color: lightgray}
+    .toolbar a[href*="fileindex=@fileindex&"] {color: lightgray}
+  </style>
+</head>
+<body>
+<div class="toolbar" style="text-align: center; width: 100%; position: fixed; top:0; white-space: nowrap">
+  <div style="margin-right: 130px">
+    <a href="videoViewer.html?device=@device&accessKey=@accessKey&fileindex=@maxFileindex">
+      &lt;&lt;
+    </a>
+    <a href="videoViewer.html?device=@device&accessKey=@accessKey&fileindex=@olderFileindex">
+      &lt;
+    </a>
+    <span class="fileDesc">@timestamp</span>
+    <a href="videoViewer.html?device=@device&accessKey=@accessKey&fileindex=@newerFileindex">
+      &gt;
+    </a>
+    <a href="videoViewer.html?device=@device&accessKey=@accessKey&fileindex=0">
+      &gt;&gt;
+    </a>
+    (Total:<b style="color:blue">@fileCount</b>)
+  </div>
+</div>
+<div style="position: fixed; right: 0; top: 27px; text-align: center; width: 130px; z-index: 99">
+  <div>
+    <button onclick="AscUtil.rotateChildLocally(document.getElementById('viewerContainer'))">Rotate Locally</button>
+  </div>
+  <div style="margin-top: 8px">
+    <a href="getFile?device=@device&accessKey=@accessKey&filename=@filename&download=true" target="resultIFrame">Download</a>
+  </div>
+  <div>
+    @fileSize
+  </div>
+</div>
+<div style="text-align: center; margin-top: 27px; margin-bottom: 24px; margin-right: 130px; position: relative; z-index: 100">
+  <div id="viewerContainer" style="display: inline-block">
+    <video id="viewer" autoplay controls>
+      <source src="getFile?device=@device&accessKey=@accessKey&filename=@filename" type="video/mp4">
+      <p>Your browser does not support H.264/MP4 in &lt;video&gt; tag. For firefox, please install latest version which will install H264 plugin by default so you can play.</p>
+    </video>
+  </div>
+</div>
+<div style="position: fixed; right: 0; bottom: 0; width: 130px; text-align: center; @showIf_devInfo">
+  <div style="font-weight: bold">Device Info</div>
+  <div style="border: 1px solid black; max-height: 176px; overflow: auto">#devInfo</div>
+</div>
+<script src="jquery.js" type="text/javascript"></script>
+<script src="common.js" type="text/javascript"></script>
+</body>
+</html>

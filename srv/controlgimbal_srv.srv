@@ -1,0 +1,4 @@
+int16 dir
+int16 angle
+---
+bool ans

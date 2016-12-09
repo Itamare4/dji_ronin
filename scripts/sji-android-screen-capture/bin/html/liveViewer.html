@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>LIVE: #devInfo</title>
+  <link rel="stylesheet" type="text/css" href="common.css">
+  <style>
+    #viewer:hover {
+      border: 8px solid blue;
+    }
+    .not_connected {
+      background-color: pink
+    }
+  </style>
+</head>
+<body>
+<div class="toolbar" style="text-align: center; width: 100%; position: fixed; top:0; height: 56px">
+  <form style="white-space: nowrap; height: 27px; margin-right: 130px">
+    <input type="hidden" name="device" value="#device"/>
+    <input type="hidden" name="accessKey" value="#accessKey"/>
+    <span style="@hideIf_masterMode">
+      <button type="submit">Set</button>
+      <label title="Example: 0.5, 400x600, 400x, x600, 600x400 means landscape. Note: this size maybe adjusted to 8/n of original when in fastResize mode">
+        <input type="text" name="size" value="@size" size="10" id="viewSize"/>
+      </label>
+      <label title="view as landscape or portrait">
+        <input type="hidden" name="orient" value="@orient" id="viewOrient"/>
+        <input type="button" class="orient_sample @orient"/>
+      </label>
+      <label enabledIf_can_fastResize title="Android 4.0+: This mode effectively shrink image size, so cut down CPU usage. But to prevent too much alias, the result size will be auto adjusted to n/8 of original, so maybe different with requested">
+        <input type="hidden" name="fastResize" value="@fastResize"/>
+        <input type="checkbox" checkedIf_fastResize enabledIf_can_fastResize onclick="$(this).prev().val(this.checked)"/>fastResize
+      </label>
+      <label enabledIf_can_fastCapture title="Android4.2+: This mode will effectively capture screenshot only when change happens, so cut down CPU usage and network traffic">
+        <input type="hidden" name="fastCapture" value="@fastCapture"/>
+        <input type="checkbox" checkedIf_fastCapture enabledIf_can_fastCapture onclick="$(this).prev().val(this.checked)"/>fastCapture
+      </label>
+    </span>
+    <span style="@showIf_masterMode">
+      @size
+      <label class="@fastResize" title="Android 4.0+: This mode effectively shrink image size, so cut down CPU usage. But to prevent too much alias, the result size will be auto adjusted to n/8 of original, so maybe different with requested">
+        fastResize
+      </label>
+      <label class="@fastCapture" title="Android4.2+: This mode will effectively capture screenshot only when change happens, so cut down CPU usage and network traffic">
+        fastCapture
+      </label>
+    </span>
+    <input type="hidden" name="orientation" value="@orientation" id="devOrient"/>
+  </form>
+  <iframe name="resultIFrame"></iframe>
+</div>
+<div style="position: fixed; right: 0; top: 0; text-align: right; width: 130px; z-index: 99">
+  <div>
+    <a class="button" id="btnSaveImage" href="saveImage?device=@device&accessKey=@accessKey" target="resultIFrame" title="Save Current Image To File On Server">
+      Save
+    </a>
+    <a href="imageViewer.html?device=@device&accessKey=@accessKey" target="images_$device">Imgs</a>
+  </div>
+</div>
+<div style="position: fixed; right: 0; top: 56px; text-align: center; width: 130px; background-color: white; z-index: 1">
+  <div>
+    <button onclick="AscUtil.rotateChildLocally(document.getElementById('viewerContainer'))">Rotate Locally</button>
+  </div>
+  <div style="font-weight:bold; margin-top: 12px">Device Action</div>
+  <div style="border: 1px solid #000000">
+    <div style="margin-top: 4px">
+      <a class="button" href="setOrientation?device=@device&accessKey=@accessKey&orientation=landscape" target="resultIFrame" onclick="$('#devOrient').val('landscape'); AscUtil.rotateChildLocally($('#viewerContainer')[0],'landscape')" title="Landscape (Locked)" style="border: 1px solid #000000; width: 35px; height: 15px; padding: 0; margin: 0; vertical-align: middle">&nbsp;</a>
+      <a class="button" href="setOrientation?device=@device&accessKey=@accessKey&orientation=portrait" target="resultIFrame" onclick="$('#devOrient').val('portrait'); AscUtil.rotateChildLocally($('#viewerContainer')[0],'portrait')" title="Portrait (Locked)" style="border: 1px solid #000000; width: 15px; height: 35px; padding: 0; margin: 0; vertical-align: middle">&nbsp;</a>
+      <a class="button" href="setOrientation?device=@device&accessKey=@accessKey&orientation=free" target="resultIFrame" onclick="$('#devOrient').val('free')" title="Free Orientation" style="vertical-align: middle">Free</a>
+    </div>
+    <div style="margin-top: 12px">
+      <a class="button" href="turnOnScreen?device=@device&accessKey=@accessKey" target="resultIFrame">Screen ON</a>
+      <a class="button" href="turnOnScreen?device=@device&accessKey=@accessKey&unlock=true" target="resultIFrame">ON+Unlock</a>
+      <a class="button" href="showHome?device=@device&accessKey=@accessKey" target="resultIFrame">Force Home</a>
+      <a class="button" href="pause?device=@device&accessKey=@accessKey" target="resultIFrame">||</a>
+      <a class="button" href="resume?device=@device&accessKey=@accessKey" target="resultIFrame">&gt;</a>
+    </div>
+  </div>
+  <div style="margin-top: 12px; margin-bottom: 4px; background-color: white; border: 1px solid #000000">
+    <div>Keyboard:</div>
+    <div>
+      <a class="button" href="sendKey?device=@device&accessKey=@accessKey&keyCode=POWER" target="resultIFrame" title="Sometimes only valid for android 4.2+">Power</a>
+    </div>
+    <div>
+      <a class="button" href="sendKey?device=@device&accessKey=@accessKey&keyCode=BACK" target="resultIFrame">Back</a>
+      <a class="button" href="sendKey?device=@device&accessKey=@accessKey&keyCode=HOME" target="resultIFrame">Home</a>
+      <a class="button" href="sendKey?device=@device&accessKey=@accessKey&keyCode=MENU" target="resultIFrame">Menu</a>
+      <a class="button" href="sendKey?device=@device&accessKey=@accessKey&keyCode=APP_SWITCH" target="resultIFrame">Apps</a>
+    </div>
+  </div>
+  <div style="margin-top: 12px; margin-bottom: 4px; background-color: white; border: 1px solid #000000">
+    <a id="btnAdb" class="button false" href="javascript:" title="Enable/Disable ADB from local">
+      <input type="checkbox"/>ADB
+    </a>
+    <div id="lblAdbConId_want">localhost:<input type="text" id="adbPort" value="" style="width:35px" /></div>
+    <div id="lblAdbConId_real" style="display: none"></div>
+    <div>
+      <a id="installAdbBridge" href="https://chrome.google.com/webstore/detail/sumatium-adb-bridge/egjnjhhnnnjgolnphfhmhcjoiembdfmo" target="InstallAdbBridge" style="display: none;">Install Sumatium ADB Bridge</a>
+    </div>
+  </div>
+</div>
+<div style="text-align: center; margin-top: 56px; margin-right: 130px; position: relative; z-index: 100">
+  <div id="lblLoading">loading</div>
+  <div id="viewerContainer" style="display: inline-block">
+    <img id="viewer" src="capture?device=@device&accessKey=@accessKey&size=@size&fastCapture=@fastCapture&fastResize=@fastResize&orientation=@orientation" style="cursor: hand"/>
+  </div>
+</div>
+<div style="position: fixed; right: 0; bottom: 0; width: 130px; text-align: center">
+  <div style="font-weight: bold">Device Info</div>
+  <div style="border: 1px solid black; max-height: 176px; overflow: auto">#devInfo</div>
+</div>
+<script src="jquery.js" type="text/javascript"></script>
+<script src="common.js" type="text/javascript"></script>
+<script>
+  if (!__server_using_websocket/*will be replaced by server*/) AscUtil.useWebSocket = false;
+  AscUtil.setTouchHandler(document.getElementById('viewer'), 'touch?device=@device&accessKey=@accessKey');
+  $('#lblBrowserAgentStr').text('Current browser agent string: ' + navigator.userAgent);
+  if (!/chrome|firefox/i.test(navigator.userAgent) && (!/safari/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent))) {
+    AscUtil.loopLoadImage(document.getElementById('viewer'));
+  }
+  $('#lblLoading').hide();
+
+  var $size = $('#viewSize'), $orient = $('#viewOrient');
+  $size.on('change', function () {
+    var match = $size.val().match(/^([^x]*)x([^x]*)$/i);
+    if (match) {
+      var w = Number(match[1]), h = Number(match[2]);
+      if (w && h) {
+        var orient = (w > h ? 'landscape' : 'portrait');
+        if ($orient.val() !== orient) {
+          $orient.val(orient);
+          $orient.next().attr('class', orient);
+        }
+      }
+    }
+  });
+  $orient.next().on('click', function () {
+    var orient = ($orient.val() === 'landscape' ? 'portrait' : 'landscape');
+    $orient.val(orient);
+    $orient.next().attr('class', orient);
+    $size.val($size.val().replace(/^([^x]*)x([^x]*)$/i, '$2x$1'));
+  });
+
+
+  /////////////////////Virtual ADB Device//////////////////////////////////////
+
+  var $btnAdb = $('#btnAdb'), $chkAdb = $btnAdb.find('input:checkbox'), $adbPort= $('#adbPort'), $lblAdbConId_want=$('#lblAdbConId_want'), $lblAdbConId_real=$('#lblAdbConId_real');
+  $chkAdb.on('click', function (e) {
+    e.preventDefault();
+    setTimeout(switchAdb, 0);
+  });
+
+  var adbBridgeWebSocketUrl = 'adbBridge?device=@device&accessKey=@accessKey';
+
+  $btnAdb.on('click', switchAdb);
+  $adbPort.on('keydown', function (e) {
+    e.which === 0xd/*ENTER*/ && switchAdb();
+  });
+
+  function switchAdb() {
+    if ($chkAdb.prop('checked')) {
+      AscUtil.closeVirtualAdbDevice(adbBridgeWebSocketUrl);
+      $lblAdbConId_want.show();
+      $lblAdbConId_real.hide();
+    } else {
+      var called = false;
+      AscUtil.createVirtualAdbDevice(adbBridgeWebSocketUrl, function (info/*{conId, connected, status}*/) {
+        var created = info.conId ? true : false;
+        if (!called) { //show alert only if device is not created
+          called = true;
+          if (created) {
+            $('#installAdbBridge').hide();
+          } else {
+            if (info.status === 'Chrome app is disconnected' || info.status.indexOf('not installed') >= 0) {
+              $('#installAdbBridge').show();
+              alert(info.status + '\n' + 'You have not installed Chrome app named "Sumatium ADB Bridge" or not allowed to use it. Please install it from the "Install Sumatium ADB Bridge"');
+            } else {
+              alert(info.status);
+            }
+          }
+        }
+        $btnAdb.prop('class', 'button ' + created);
+        $chkAdb.prop('checked', created);
+        if (created) {
+          $lblAdbConId_want.hide();
+          $lblAdbConId_real.text(info.conId).prop('class', info.connected ? '' : 'not_connected').prop('title', info.connected ? '' : 'Please manually run command: adb connect ' + info.conId).show();
+        } else {
+          $lblAdbConId_want.show();
+          $lblAdbConId_real.hide();
+        }
+      }, {port: Number($adbPort.val())}); //end of AscUtil.createVirtualAdbDevice
+    }
+  }
+
+</script>
+</body>
+</html>

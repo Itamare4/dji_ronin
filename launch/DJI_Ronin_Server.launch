@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <node name="djironin_control" pkg="dji_ronin" type="DJIRonin_Control.py" output="screen">
+	<param name="Publish_Digits" value="0"/>
+	<param name="Publish_App" value="0"/>
+  </node>
+  <node name="djironin_server" pkg="dji_ronin" type="DJIRonin_Server.py" output="screen"/>
+  <node name="djironin_NodesJS" pkg="dji_ronin" type="DJIRonin_NodeJS.py" output="screen"/>
+</launch>

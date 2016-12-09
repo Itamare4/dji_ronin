@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Android Device Management</title>
+  <style>
+    .expandable > * {
+      display: none
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="common.css">
+</head>
+<body onunload="">
+<div class="toolbar" style="text-align: center; width: 100%; position: fixed; top:0; height: 29px">
+  <iframe name="resultIFrame"></iframe>
+</div>
+<div style="margin-top: 29px; text-align: center">
+  <table id="device_tbl" style="max-width:100%; border-collapse: collapse; display: inline-block">
+    <!--repeatBegin-->
+    <tr id="row1_$device" class="@devStatusClass">
+      <td style="width: 5px; border-right: 1px solid gray">@rowNum</td>
+      <td style="text-align: left; vertical-align: top; padding-left: 4px">
+        <span style="white-space: nowrap" class="deviceSN">#devIdDisp</span>
+        <form action="deviceControl" target="resultIFrame" onsubmit="return confirm('Sure to set/clear protect key?' + ($('#recordingCount_$device').text() || !$('#liveViewCount_$device').text() ? 'All running live view or recording will be stopped.' : ''))" style="display: inline-block; white-space: nowrap; float: right">
+          <input type="hidden" name="device" value="#device"/>
+          <!--<button type="submit" class="internal">Set</button>-->
+          <label title="Access Key. Set a key to protect access to live view page, and disable resize from live view page">
+            &nbsp;<input type="text" name="accessKey" value="#accessKey_disp" style="width: 40px; margin: 0; vertical-align: top" class="masterMode_@masterMode" />
+          </label>
+        </form>
+        <span style="background-color: pink">#devErr</span>
+        <span style="float: right">
+          &nbsp;<span>#devInfo</span>
+        </span>
+      </td>
+    </tr>
+    <tr id="row2_$device" class="@devStatusClass" style="border-bottom: 1px solid #000000">
+      <td style="border-right: 1px solid gray"></td>
+      <td style="text-align: left; vertical-align: top; padding-left: 4px">
+        <span style="white-space: nowrap">
+          <a href="@viewUrlBase/liveViewer.html?device=@device&accessKey=@accessKey" target="liveView_$device" title="Show Live View">
+            View
+          </a>
+          <span class="captureIndicator" id="liveViewCount_$device"></span>
+          <a id="stopLiveView_$device" class="button" href="deviceControl?action=stopLiveView&device=@device" target="resultIFrame" onclick="return confirm('Sure to stop all live view?')" title="Stop All Live View" style="display: none">
+            X
+          </a>
+        </span>
+        <span style="white-space: nowrap">
+          <span style="background-color: darkgray">&nbsp;</span>
+          <a class="button" href="deviceControl?action=startRecording&device=@device" target="resultIFrame" onclick="return !$('#recordingCount_$device').text() || confirm('Sure to stop current recording and start a new recording?')" title="Record">
+            Rec
+          </a>
+          <span class="captureIndicator" id="recordingCount_$device"></span>
+          <a id="stopRecording_$device" class="button" href="deviceControl?action=stopRecording&device=@device" target="resultIFrame" onclick="return confirm('Sure to stop recording?')" title="Stop Recording" style="display: none">
+            X
+          </a>
+        </span>
+        <span style="background-color: darkgray">&nbsp;</span>
+        <a class="internal" href="@viewUrlBase/videoViewer.html?device=@device&accessKey=@accessKey&fileindex=0" target="videos_$device" title="Recorded Videos">
+          Vids
+        </a>
+        <a class="internal" href="@viewUrlBase/imageViewer.html?device=@device&accessKey=@accessKey" target="images_$device" title="Saved Images">
+          Imgs
+        </a>
+        <a class="internal SLog" href="getServerLog@adminUrlSuffix?device=@device&logHowManyDaysAgo=0&mode=tail&size=64000" target="log_$device" title="Server Log about this device">
+          Log
+        </a>
+        <a class="internal" href="cmd@adminUrlSuffix?device=@device&cmd=exec%20cat%20@androidLogPath%202%3E%20%2Fdev%2Fnull&log=false&size=1000000" target="log_$device" title="Android-Side Utility Log">
+          L
+        </a>
+        <a class="internal" href="cmd@adminUrlSuffix?device=@device&cmd=exec%20@androidWorkDir%2Fbusybox%20top%20-b%20-n%201%202%3E%2Fdev%2Fnull%20%7C%7C%20top%20-n%201%20-d%200&log=false&size=100000" target="top_$device" title="Android CPU/Memory Usage">
+          T
+        </a>
+        &nbsp;<span class="captureIndicator" id="captureParameter_$device" style="float: right"></span>
+      </td>
+    </tr>
+    <!--repeatEnd-->
+  </table>
+</div>
+<div class="expandable" style="position: fixed; top: 1px; right: 1px; max-width:80%; max-height:90%">
+  <div>Admin</div>
+  <div>
+    <form action="getServerLog@adminUrlSuffix" target="asc_log" style="border-bottom: 1px solid lightgray; margin-bottom: 4px">
+      <button type="submit">Get Server Log</button>
+      <label>
+        <input type="checkbox" name="download" value="true"/>Download
+      </label>
+      <div>
+        <label><input type="radio" name="logHowManyDaysAgo" value="0" checked/>Today</label>
+        <label><input type="radio" name="logHowManyDaysAgo" value="1"/>-1</label>
+        <label><input type="radio" name="logHowManyDaysAgo" value="2"/>-2</label>
+        <span style="background-color: darkgray">&nbsp;</span>
+        <label>
+          <select name="mode" onchange="if(this.value===''){$('#txt_logSize').css('visibility','hidden');}else{$('#txt_logSize').css('visibility','');}">
+            <option value="">All</option>
+            <option value="tail" selected>Last</option>
+            <option value="head">First</option>
+          </select>
+        </label>
+        <label>
+          <input type="text" id="txt_logSize" name="size" value="32000" maxlength="10" size="5"/>B
+        </label>
+      </div>
+    </form>
+    <div style="border-bottom: 1px solid lightgray; margin-bottom: 4px">
+      <a class="button" href="prepareAllDevices@adminUrlSuffix?mode=checkPrepare" target="resultIFrame" title="prepare all device files">
+        Prepare
+      </a>
+      All Devices
+      <a class="button" href="prepareAllDevices@adminUrlSuffix?mode=forcePrepare" target="resultIFrame" onclick="return confirm('Sure?')"  title="prepare all device files forcibly">
+        forcibly
+      </a>
+    </div>
+    <div style="border-bottom: 1px solid lightgray; margin-bottom: 4px">
+      <a class="button" href="reloadResource@adminUrlSuffix" target="resultIFrame">
+        Reload
+      </a>
+      Internal Resources
+    </div>
+    <div>
+      <a class="button @logFpsStatistic" href="set@adminUrlSuffix?logFpsStatistic=@logFpsStatistic_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_logFpsStatistic/>Log FPS Statistic
+      </a>
+    </div>
+    <div>
+      <a class="button @logAllProcCmd" href="set@adminUrlSuffix?logAllProcCmd=@logAllProcCmd_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_logAllProcCmd/>Log All Process Commands
+      </a>
+    </div>
+    <div>
+      <a class="button @logHttpReqDetail" href="set@adminUrlSuffix?logHttpReqDetail=@logHttpReqDetail_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_logHttpReqDetail/>Log HTTP Request Detail
+      </a>
+    </div>
+    <div>
+      <a class="button @logFfmpegDebugInfo" href="set@adminUrlSuffix?logFfmpegDebugInfo=@logFfmpegDebugInfo_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_logFfmpegDebugInfo/>Log FFMPEG Debug Info
+      </a>
+    </div>
+    <div>
+      <a class="button @logAllHttpReqRes" href="set@adminUrlSuffix?logAllHttpReqRes=@logAllHttpReqRes_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_logAllHttpReqRes/>Log All Http Req/Res
+      </a>
+    </div>
+    <div>
+      <a class="button @logAdbBridgeDetail" href="set@adminUrlSuffix?logAdbBridgeDetail=@logAdbBridgeDetail_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_logAdbBridgeDetail/>Log AdbBridge Detail
+      </a>
+    </div>
+    <div>
+      <a class="button @logRdcWebSocketDetail" href="set@adminUrlSuffix?logRdcWebSocketDetail=@logRdcWebSocketDetail_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_logRdcWebSocketDetail/>Log RdcWebSocket Detail
+      </a>
+    </div>
+    <div>
+      <a class="button @showDisconnectedDevices" href="set@adminUrlSuffix?showDisconnectedDevices=@showDisconnectedDevices_negVal" target="resultIFrame">
+        <input type="checkbox" checkedIf_showDisconnectedDevices/>Show Disconnected Devices
+      </a>
+    </div>
+    <div>
+      <a class="button @fastResize" href="set@adminUrlSuffix?fastResize=@fastResize_negVal" target="resultIFrame" title="Android 4.0+: This mode effectively shrink image size, so cut down CPU usage. But to prevent too much alias, the result size will be auto adjusted to n/8 of original, so maybe different with requested">
+        <input type="checkbox" checkedIf_fastResize/>Default: Fast Resize Image
+      </a>
+    </div>
+    <div>
+      <a class="button @fastCapture" href="set@adminUrlSuffix?fastCapture=@fastCapture_negVal" target="resultIFrame" title="Android4.2+: This mode will effectively capture screenshot only when change happens, so cut down CPU usage and network traffic">
+        <input type="checkbox" checkedIf_fastCapture/>Default: Fast Capture
+      </a>
+    </div>
+    <div>
+      <a class="button @should_callAscLibSecurely" href="set@adminUrlSuffix?should_callAscLibSecurely=@should_callAscLibSecurely_negVal" target="resultIFrame" title="">
+        <input type="checkbox" checkedIf_should_callAscLibSecurely/>Call ASC lib Securely
+      </a>
+    </div>
+    <div>
+      <a class="button @support_adbBridge" href="set@adminUrlSuffix?support_adbBridge=@support_adbBridge_negVal" target="resultIFrame" title="">
+        <input type="checkbox" checkedIf_support_adbBridge/>Support ADB Bridge
+      </a>
+    </div>
+    <form action="set@adminUrlSuffix" target="resultIFrame" style="border-top: 1px solid lightgray; margin-top: 4px">
+      <button type="submit">Set</button>
+      <label title="Default view size and orientation. Example: 0.5, 400x600, 400x, x600, 600x400 means landscape. Note: this size maybe adjusted to 8/n of original when in fastResize mode">
+        Live View Size:
+        <input type="text" name="size" value="@viewSize" size="10" id="viewSize"/>
+      </label>
+      <label title="View as landscape or portrait">
+        <input type="hidden" name="orient" value="@viewOrient" id="viewOrient" />
+        <input type="button" class="orient_sample @viewOrient"/>
+      </label>
+    </form>
+    <form action="set@adminUrlSuffix" target="resultIFrame" style="border-top: 1px solid lightgray; margin-top: 4px">
+      <button type="submit">Set</button>
+      <label>Record Rate:
+        <input type="text" name="videoFileFrameRate" value="@videoFileFrameRate" style="width: 30px" />
+      </label>
+    </form>
+    <form style="border-top: 1px solid lightgray; margin-top: 4px; @showIf_isStreamWebSeparated">
+      <button type="submit">Set</button>
+      <div style="display: inline-block">
+        Live View URL Base:
+        <div>
+          <label>
+            <input type="text" name="viewUrlBase" value="#viewUrlBase" style="width: 170px" title="Example: &quot;localhost:33333&quot;. Empty means use admin web itself" />
+          </label>
+        </div>
+      </div>
+    </form>
+    <div style="border-top: 1px solid lightgray; margin-top: 4px">
+      <a class="button" href="stopServer@adminUrlSuffix" target="resultIFrame" style="color: red" onclick="return confirm('Sure?')">
+        Stop Server
+      </a>
+    </div>
+  </div>
+</div>
+<div id="darkMask" style="display: none">Disconnected. Auto reconnect every 10 seconds...</div>
+
+<script src="jquery.js" type="text/javascript"></script>
+<script>
+  var appVer = '@appVer', ver = '';
+  (function queryStatus() {
+    $('#darkMask').hide();
+    $.ajax('status?ver=' + ver + '&appVer=' + appVer, {timeout: 60 * 1000})
+      .done(function (status) {
+        if (status.appVer !== appVer) {
+          document.location.reload(true);
+          return;
+        }
+        ver = status.ver;
+        $.each(status.data, function (elementId, text) {
+          var $e = $('#' + elementId);
+          $e.text(text);
+          if (elementId.slice(0, 14) === 'liveViewCount_') {
+            $('#' + 'stopLiveView_' + elementId.slice(14)).css('display', text ? '' : 'none');
+          } else if (elementId.slice(0, 15) === 'recordingCount_') {
+            $('#' + 'stopRecording_' + elementId.slice(15)).css('display', text ? '' : 'none');
+          }
+        });
+        queryStatus();
+      })
+      .fail(function (jqXHR, textStatus) {
+        if (textStatus === 'timeout') {
+          queryStatus();
+        } else {
+          $('#darkMask').show();
+          setTimeout(queryStatus, 10 * 1000);
+        }
+      });
+  })();
+
+  var devIdAry;
+  function getDevIdAry() {
+    if (!devIdAry) {
+      devIdAry = $('input[name="device"]').toArray().map(function (el) {
+        return el.value;
+      });
+      console.log(JSON.stringify(devIdAry));
+    }
+    return devIdAry;
+  }
+
+  function adb(cmd, timeout, device, maxSize) {
+
+    (Array.isArray(device) ? device : device ? [device] : getDevIdAry()).forEach(function (device) {
+      $.ajax('cmd@adminUrlSuffix?device=' + encodeURIComponent(device) + '&cmd=' + encodeURIComponent(cmd) + (timeout ? '&timeout=' + encodeURIComponent(timeout) : '') + (maxSize ? '&size=' + maxSize : ''))
+        .done(function (res) {
+          console.log('-------------------Begin device: "' + device + '"-------------------\n' + res + '-------------------End   device: "' + device + '"-------------------\n');
+        })
+        .fail(function (jqXHR, textStatus) {
+          console.log(device + ': ' + textStatus);
+        });
+    });
+  }
+
+  var $frmSLog = $('form[action="getServerLog@adminUrlSuffix"]');
+  $(document).on('mouseover click', '.SLog', function (e) {
+    var $this = $(e.currentTarget);
+    $this.prop('href', $this.prop('href')
+      .replace(/&logHowManyDaysAgo=[^&]*/, '&logHowManyDaysAgo=' + $frmSLog.find('[name="logHowManyDaysAgo"]:checked').val())
+      .replace(/&mode=[^&]*/, '&mode=' + $frmSLog.find('[name="mode"] option:selected').val())
+      .replace(/&size=[^&]*/, '&size=' + Math.max(Number($frmSLog.find('[name="size"]').val()) || 64000, 512000))
+    );
+  });
+
+  $(document).on('click', '.button input:checkbox', function (e) {
+    e.preventDefault();
+    this.parentNode.click();
+  });
+
+  var $size = $('#viewSize'), $orient = $('#viewOrient');
+  $size.on('change', function () {
+    var match = $size.val().match(/^([^x]*)x([^x]*)$/i);
+    if (match) {
+      var w = Number(match[1]), h = Number(match[2]);
+      if (w && h) {
+        var orient = (w > h ? 'landscape' : 'portrait');
+        if ($orient.val() !== orient) {
+          $orient.val(orient);
+          $orient.next().attr('class', orient);
+        }
+      }
+    }
+  });
+  $orient.next().on('click', function () {
+    var orient = ($orient.val() === 'landscape' ? 'portrait' : 'landscape');
+    $orient.val(orient);
+    $orient.next().attr('class', orient);
+    $size.val($size.val().replace(/^([^x]*)x([^x]*)$/i, '$2x$1'));
+  });
+</script>
+</body>
+</html>
