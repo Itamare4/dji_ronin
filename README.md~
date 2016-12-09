@@ -8,7 +8,7 @@ DJI Ronin - ROS Control Unit
 ### OVERVIEW ###
 This is probably the worst way to control the DJI Ronin gimbal, but hey! it works great and **nowadays that's the only way to control it**.
 
-### HOW? WHY? ###
+### WHY? HOW? ###
 DJI Ronin, 3 Axis gimbal, DJI decided to release their device without any API for developers, which makes it absolutely useless. <br>
 __The Easy Way__ - Just buy gimbal which is based on Basecam/Alexmos, they DO have Serial API.<br>
 __The Hard Way__ - Creating a server which runs the DJI Ronin app on android and continuously transmits screen capture of the app to a server on the robot through ADB(using sji), using KNN to recognize the digits from the screen capture and publish Pan, Tilt, Roll as custom ROS message. <br>

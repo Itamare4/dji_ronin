@@ -20,7 +20,7 @@ class DJIRoninClassifier():
         self.pub = rospy.Publisher('/GimbalAngle', gimbalangle, queue_size=10)
         self.app_pub = rospy.Publisher("/DJI_Ronin_App", ROSIMAGE, queue_size=10)
         self.digit_pub = rospy.Publisher("/DJI_Ronin_App_Digits", ROSIMAGE, queue_size=10)
-        self.url = rospy.get_param("~Phone_URL","...")
+        self.url = rospy.get_param("~Phone_URL","http://localhost:3000/capture?device=9885e6305357475141%40localhost%3A5037&accessKey=&size=320x640&fastCapture=false&fastResize=true&orientation=")
         self.digitheight = 14
         self.bool_publish_Digit = rospy.get_param("~Publish_Digits",0)
         self.bool_publish_App = rospy.get_param("~Publish_App", 0)
