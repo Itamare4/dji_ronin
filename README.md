@@ -51,14 +51,15 @@ In order to rotate the gimbal CCW/CW, we need to calibrate our custom remote to 
 In order to find the values that rotates the gimbal open a serial communication with the Arduino board (via Putty or so) at baud 9600, and enter 1 SPEED, and 2 SPEED, 1/2 refers to CW, CCW.<br> Write this values in the speed variable in DJIRonin_Control.py.
 
 ### Examples ###
-<center><img src="https://s29.postimg.org/gbdp9mlrb/Selection_003.png" height="300"><br>Image processing using OpenCV<br></center>
+<p align="center">
+<img src="https://s29.postimg.org/gbdp9mlrb/Selection_003.png" height="300"><br>Image processing using OpenCV<br>
 
-![Example](resources/Gimbal.gif "")
+<img src="resources/Gimbal.gif" width="200"><br>
 
-<br>DJI Ronin controlled by dji_ronin node<br></center>
+DJI Ronin controlled by dji_ronin node<br>
 
-<center><img src="https://s18.postimg.org/lw475tejt/Selection_004.png" height="200"><br>Arduino RC Circuit</center>
-
+<img src="https://s18.postimg.org/lw475tejt/Selection_004.png" height="200"><br>Arduino RC Circuit
+</p>
 
 
 ### ROS Interface ###
