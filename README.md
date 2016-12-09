@@ -47,8 +47,8 @@ The phone capturing resolution will set to 360x640, the script will locate your 
 * Python Dependencies: Naked, pySerial, numpy, PIL, matplotlib. (use *pip install*)
 
 ### Calibration###
-In order to rotate the gimbal CCW/CW, we need to calibrate our custom remote to fit the MCP41050 pot, using DJI ronin app set the Arduino to a value that fits your RC scale, set this values as default.<br> 
-In order to find the values that rotates the gimbal open a serial communication with the Arduino board (via Putty or so) at baud 9600, and enter 1 SPEED, and 2 SPEED, 1/2 refers to CW, CCW.<br> Write this values in the speed variable in DJIRonin_Control.py.
+In order to rotate the gimbal CCW/CW, we need to calibrate our custom remote to fit the MCP41050 pot, using DJI ronin app set the Arduino to a value that fits your RC scale, set these values as default.<br> 
+In order to find the values that rotates the gimbal open a serial communication with the Arduino board (via Putty or so) at baud 9600, and enter 1 SPEED, and 2 SPEED, 1/2 refers to CW, CCW.<br> Write this value in the speed variable in DJIRonin_Control.py.
 
 ### Examples ###
 <p align="center">

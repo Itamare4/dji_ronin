@@ -3,7 +3,7 @@ DJI Ronin - ROS Control Unit
 ------------------------
 <p align="center">
 <img src="http://www.wcxsports.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/s/p/spec_ronin-new.jpg" height="400" width=auto>
-</center>
+</p>
 
 ### OVERVIEW ###
 This is probably the worst way to control the DJI Ronin gimbal, but hey! it works great and **nowadays that's the only way to control it**.
@@ -47,7 +47,7 @@ The phone capturing resolution will set to 360x640, the script will locate your 
 * Python Dependencies: Naked, pySerial, numpy, PIL, matplotlib. (use *pip install*)
 
 ### Calibration###
-In order to rotate the gimbal CCW/CW, we need to calibrate our custom remote to fit the MCP41050 pot, using DJI ronin app set the Arduino to a value that fits your RC scale, set this values as default.<br> 
+In order to rotate the gimbal CCW/CW, we need to calibrate our custom remote to fit the MCP41050 pot, using DJI ronin app set the Arduino to a value that fits your RC scale, set these values as default.<br> 
 In order to find the values that rotates the gimbal open a serial communication with the Arduino board (via Putty or so) at baud 9600, and enter 1 SPEED, and 2 SPEED, 1/2 refers to CW, CCW.<br> Write this values in the speed variable in DJIRonin_Control.py.
 
 ### Examples ###
