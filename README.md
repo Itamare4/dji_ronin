@@ -53,7 +53,7 @@ In order to find the values that rotates the gimbal open a serial communication 
 ### Examples ###
 <center><img src="https://s29.postimg.org/gbdp9mlrb/Selection_003.png" height="300"><br>Image processing using OpenCV<br></center>
 
-[[ https://media.giphy.com/media/3oriNTYzEIr30RBxxm/source.gif | height = 200px ]]
+![Example](resources/Gimbal.gif "")
 
 <br>DJI Ronin controlled by dji_ronin node<br></center>
 
