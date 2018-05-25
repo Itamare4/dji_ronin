@@ -52,13 +52,13 @@ In order to find the values that rotates the gimbal open a serial communication 
 
 ### Examples ###
 <p align="center">
-<img src="https://s29.postimg.org/gbdp9mlrb/Selection_003.png" height="300"><br>Image processing using OpenCV<br>
+<img src="https://github.com/Itamare4/dji_ronin/blob/master/MD_Images/Selection_003.png?raw=true" height="300"><br>Image processing using OpenCV<br>
 
-<img src="resources/Gimbal.gif" width="200"><br>
+<img src="https://github.com/Itamare4/dji_ronin/blob/master/MD_Images/Gimbal.gif?raw=true" width="200"><br>
 
 DJI Ronin controlled by dji_ronin node<br>
 
-<img src="https://s18.postimg.org/lw475tejt/Selection_004.png" height="200"><br>Arduino RC Circuit
+<img src="https://github.com/Itamare4/dji_ronin/blob/master/MD_Images/Selection_004.png?raw=true" height="200"><br>Arduino RC Circuit
 </p>
 
 
