@@ -2,7 +2,7 @@
 DJI Ronin - ROS Control Unit
 ------------------------
 <p align="center">
-<img src="http://www.wcxsports.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/s/p/spec_ronin-new.jpg" height="400" width=auto>
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/06/DJI-ronin-M.jpg" height="400" width=auto>
 </p>
 
 ### OVERVIEW ###
